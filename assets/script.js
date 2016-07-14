@@ -1,0 +1,166 @@
+var gridCount = 25;
+var gameTime = 30;
+var running = false;
+var boxFrequency = 1000;
+var box = 0;
+var score = 0;
+var perScore = 1;
+var turn = 0;
+var gt;
+var bt;
+
+
+$(document).ready(function() {
+
+  function clearBoxes() {
+    $('.square').each(function() {
+      $(this).css('background-color', '#FDFDFD');
+    });
+  }
+
+  function resetGame() {
+    $('.square').each(function() {
+      $(this).css('background-color', '#FDFDFD');
+      $('#playTurn b').html('Player 1');
+      turn = 0;
+      gameTime = 30;
+      $('#score b').html('0');
+      $('#playerOneScore b').html('0');
+      $('#playerTwoScore b').html('0');
+    });
+  }
+
+  function updateValues() {
+    $('#time b').html(gameTime);
+    $('#score b').html(score);
+  }
+
+  function checkTime() {
+    // if(gameTime < 30 && gameTime > 15){$("#time b").css("color", "green");}
+    // if(gameTime < 15 && gameTime > 5){$("#time b").css("color", "orange");}
+    // if(gameTime < 5){$("#time b").css("color", "red");}
+
+    if (gameTime <= 0) {
+      running = false;
+      $('.square').css('background-color', '#FDFDFD');
+      $('#gameStart').show();
+      $('#gameStop').hide();
+      turn++;
+      checkTurn();
+      displayScore();
+    }
+  }
+
+  function displayScore() {
+    if ((gameTime <= 0) && (turn % 2 !== 0)) {
+      $('#playerOneScore b').html(score);
+    } else if ((gameTime <= 0) && (turn % 2 === 0)) {
+      $('#playerTwoScore b').html(score);
+      winner();
+    }
+  }
+
+  function winner() {
+    if (parseInt($('#playerOneScore b').html()) > parseInt($('#playerTwoScore b').html())) {
+      $('#playTurn').html('<h2>Player 1 Wins!</h2>');
+    } else if (parseInt($('#playerOneScore b').html()) < parseInt($('#playerTwoScore b').html())) {
+      $('#playTurn').html('Player 2 Wins!');
+    } else {
+      $('#playTurn').html('It\'s a Tie!');
+    }
+    $('#status').hide();
+    $('.stat2').hide();
+    createResetBtn();
+  }
+
+  function createResetBtn() {
+    $('<button>Play Again</button>').appendTo($('#playTurn')).click(function() {
+      location.reload();
+    });
+    $('#gameStart').hide();
+    $('#gameStop').hide();
+  }
+
+  function checkTurn() {
+    if (turn % 2 === 0) {
+      $('#playTurn b').html('Player 1');
+    } else {
+      $('#playTurn b').html('Player 2');
+    }
+  }
+
+  $('#gameStart').click(function() {
+    startGame();
+  });
+
+  function startGame() {
+    $('#gameStart').hide();
+    $('#gameStop').show();
+    boxFrequency = 1000;
+    perScore = 1;
+
+    if (running === false) {
+      score = 0;
+      gameTime = 30;
+      clearInterval(gt);
+      clearInterval(bt);
+    }
+
+    $('#status').html('Catch the orange circle');
+    running = true;
+    gameClock();
+    generateBox();
+  }
+
+  function generateBox() {
+    bt = setInterval(function() {
+      if (running === true) {
+        clearBoxes();
+        var box = randNum();
+        $('#' + box).css('background-color', '#F18805');
+      }
+    }, boxFrequency);
+  }
+
+  function gameClock() {
+    gt = setInterval(function() {
+      if (running === true) {
+        gameTime--;
+        updateValues();
+        checkTime();
+      }
+    }, 1000);
+  }
+
+  $('#gameStop').click(function() {
+    $('#gameStart').show();
+    $('#gameStop').hide();
+    running = false;
+    score = 0;
+    gameTime = 30;
+    clearInterval(gt);
+    clearInterval(bt);
+    resetGame();
+    $('#status').html('Game Over');
+  });
+
+  $('.square').click(function() {
+    $(this).css('background-color', '#FDFDFD');
+    if (running === false) {
+      clearBoxes();
+      $('#status').html('Press Start');
+    } else if ($(this).attr('id') == box) {
+      score += perScore;
+    } else {
+      score -= perScore;
+    }
+    updateValues();
+  });
+
+  function randNum() {
+    box = Math.floor(Math.random() * gridCount);
+    return box;
+  }
+
+
+});
