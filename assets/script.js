@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   function resetGame() {
     $('.square').each(function() {
-      $(this).css('background-color', '#FDFDFD');
+      $(this).css('background-color', '#fcfce1');
       $('#playTurn b').html('Player 1');
       turn = 0;
       gameTime = 30;
@@ -36,9 +36,11 @@ $(document).ready(function() {
   }
 
   function checkTime() {
-    // if(gameTime < 30 && gameTime > 15){$("#time b").css("color", "green");}
-    // if(gameTime < 15 && gameTime > 5){$("#time b").css("color", "orange");}
-    // if(gameTime < 5){$("#time b").css("color", "red");}
+    if (gameTime < 30 && gameTime > 10) {
+      $('#time b').css('color', '#397D02');
+    } else if (gameTime < 10) {
+      $('#time b').css('color', '#e50000');
+    }
 
     if (gameTime <= 0) {
       running = false;
@@ -61,25 +63,41 @@ $(document).ready(function() {
   }
 
   function winner() {
-    if (parseInt($('#playerOneScore b').html()) > parseInt($('#playerTwoScore b').html())) {
-      $('#playTurn').html('<h2>Player 1 Wins!</h2>');
-    } else if (parseInt($('#playerOneScore b').html()) < parseInt($('#playerTwoScore b').html())) {
-      $('#playTurn').html('Player 2 Wins!');
-    } else {
-      $('#playTurn').html('It\'s a Tie!');
-    }
-    $('#status').hide();
-    $('.stat2').hide();
-    createResetBtn();
-  }
-
-  function createResetBtn() {
-    $('<button>Play Again</button>').appendTo($('#playTurn')).click(function() {
+    $('.overlay').show();
+    $('#resetGame').click(function() {
       location.reload();
     });
-    $('#gameStart').hide();
-    $('#gameStop').hide();
+
+    if (parseInt($('#playerOneScore b').html()) > parseInt($('#playerTwoScore b').html())) {
+      $('#winnerDisplay').html('<h2>Player 1 Wins!</h2>');
+    } else if (parseInt($('#playerOneScore b').html()) < parseInt($('#playerTwoScore b').html())) {
+      $('#winnerDisplay').html('<h2>Player 2 Wins!</h2>');
+    } else {
+      $('#winnerDisplay').html('<h2>It\'s a Tie!</h2>');
+    }
   }
+
+
+  // function winner() {
+  //   if (parseInt($('#playerOneScore b').html()) > parseInt($('#playerTwoScore b').html())) {
+  //     $('#playTurn').html('<h2>Player 1 Wins!</h2>');
+  //   } else if (parseInt($('#playerOneScore b').html()) < parseInt($('#playerTwoScore b').html())) {
+  //     $('#playTurn').html('Player 2 Wins!');
+  //   } else {
+  //     $('#playTurn').html('It\'s a Tie!');
+  //   }
+  //   $('#status').hide();
+  //   $('.stat2').hide();
+  //   createResetBtn();
+  // }
+  //
+  // function createResetBtn() {
+  //   $('<button>Play Again</button>').appendTo($('#playTurn')).click(function() {
+  //     location.reload();
+  //   });
+  //   $('#gameStart').hide();
+  //   $('#gameStop').hide();
+  // }
 
   function checkTurn() {
     if (turn % 2 === 0) {
@@ -161,6 +179,5 @@ $(document).ready(function() {
     box = Math.floor(Math.random() * gridCount);
     return box;
   }
-
 
 });
