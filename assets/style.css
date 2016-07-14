@@ -37,6 +37,18 @@ button {
 	border-radius: 5%;
 }
 
+.overlay {
+	position: absolute;
+	top: 148px;
+	height: 285px;
+	width: 250px;
+	float: right;
+	background-color: #FC9E4F;
+	border-radius: 5%;
+	padding: 15px;
+	display: none;
+}
+
 .field {
   margin: auto;
   height: 280px;
@@ -53,7 +65,7 @@ button {
   height: 50px;
   width: 50px;
   display: inline-block;
-	background-color: rgb(252,252,225);
+	background-color: #fcfce1;
 	border: 1px solid #BB4430;
 	border-radius: 100%;
 }
@@ -69,4 +81,8 @@ button {
 #status {
 	background-color: rgba(250, 237, 202, 0.5);
 	padding: 5px;
+}
+
+#gameStop {
+	display: none;
 }
