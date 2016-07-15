@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 var gridCount = 25;
 var gameTime = 30;
 var running = false;
@@ -8,9 +10,6 @@ var perScore = 1;
 var turn = 0;
 var gt;
 var bt;
-
-
-$(document).ready(function() {
 
   function clearBoxes() {
     $('.square').each(function() {
@@ -65,7 +64,7 @@ $(document).ready(function() {
   function winner() {
     $('.overlay').show();
     $('#resetGame').click(function() {
-      location.reload()
+      location.reload();
     });
 
     if (parseInt($('#playerOneScore b').html()) > parseInt($('#playerTwoScore b').html())) {
@@ -76,28 +75,6 @@ $(document).ready(function() {
       $('#winnerDisplay').html('<h2>It\'s a Tie!</h2>');
     }
   }
-
-
-  // function winner() {
-  //   if (parseInt($('#playerOneScore b').html()) > parseInt($('#playerTwoScore b').html())) {
-  //     $('#playTurn').html('<h2>Player 1 Wins!</h2>');
-  //   } else if (parseInt($('#playerOneScore b').html()) < parseInt($('#playerTwoScore b').html())) {
-  //     $('#playTurn').html('Player 2 Wins!');
-  //   } else {
-  //     $('#playTurn').html('It\'s a Tie!');
-  //   }
-  //   $('#status').hide();
-  //   $('.stat2').hide();
-  //   createResetBtn();
-  // }
-  //
-  // function createResetBtn() {
-  //   $('<button>Play Again</button>').appendTo($('#playTurn')).click(function() {
-  //     location.reload();
-  //   });
-  //   $('#gameStart').hide();
-  //   $('#gameStop').hide();
-  // }
 
   function checkTurn() {
     if (turn % 2 === 0) {
